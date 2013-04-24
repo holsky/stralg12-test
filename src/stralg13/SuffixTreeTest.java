@@ -12,37 +12,43 @@ public class SuffixTreeTest {
 		SuffixTree expected = new SuffixTree();
 		expected.string = "a" + SuffixTree.STRING_END;
 		expected.root.addEdge(0, 1);
-
-		assertTrue(actual.equals(expected));
-	}
-
-	public void testCaseTwoCharacters() { 
-		SuffixTree actual = new SuffixTree("ab");
-		
-		SuffixTree expected = new SuffixTree();
-		expected.string = "ab" + SuffixTree.STRING_END;
-		expected.root.addEdge(0, 2);
-		expected.root.addEdge(1, 2);
+		expected.root.addEdge(1, 1);
 
 		assertTrue(actual.equals(expected));
 	}
 	
-	  public void testSlowscanSimple() { 
-		  SuffixTree tree = new SuffixTree("ab");
-		  Node actual = tree.slowscan(1);
-		  
-	  }
-	  
-	 /* public void testCompareString() { SuffixTree tree(QString("abcde"));
-	  
-	  //QVERIFY(!QString("abcde").isNull());
-	  QVERIFY(tree.root->compareString(1, Tuple(1,3))); }
-	  
-	  public void twoEdges() { //Node *root = SuffixTree("ab").root;
-	  
-	  assertTrue(root->contains(0, 1), "Contains the string");
-	  assertTrue(root->contains(1, 1), "Contains the string");
-	  
-	  }
-	 */
+	@Test
+	public void testCaseTwoCharacters() {
+		SuffixTree actual = new SuffixTree("ab");
+
+		SuffixTree expected = new SuffixTree();
+		expected.string = "ab" + SuffixTree.STRING_END;
+		expected.root.addEdge(0, 2);
+		expected.root.addEdge(1, 2);
+		expected.root.addEdge(2, 2);
+
+		assertTrue(actual.equals(expected));
+	}
+
+	@Test
+	public void testSplitEdge() {
+		SuffixTree actual = new SuffixTree("aba");
+
+		SuffixTree expected = new SuffixTree();
+		expected.string = "aba" + SuffixTree.STRING_END;
+		expected.root.addEdge(0, 1); // a
+		expected.root.edges.get(new Tuple(0,1)).addEdge(3,3); //$
+		expected.root.edges.get(new Tuple(0,1)).addEdge(1,3); //ba$
+		expected.root.addEdge(1, 3); // ba$
+
+		assertTrue(actual.equals(expected));
+	}
+		
+	@Test
+	public void testCompareString() {
+		SuffixTree tree = new SuffixTree("abcde");
+
+		assertTrue(tree.containsString(1, new Tuple(1, 3)));
+	}
+
 }
