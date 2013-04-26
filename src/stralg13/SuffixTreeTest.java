@@ -50,9 +50,9 @@ public class SuffixTreeTest {
 		tree.root.addEdgeAndNewNode(1, 3); // ba$
 		
 		SlowScanResult actual = tree.slowscan(tree.root, 2);
-	
+
 		SlowScanResult expected 
-			= SlowScanResult.makeEdgeResult(tree.root, new Tuple(0,3), 0);
+			= SlowScanResult.makeEdgeResult(tree.root, new Tuple(0,3), 1);
 		
 		assertTrue(actual.equals(expected));
 	}
@@ -63,6 +63,7 @@ public class SuffixTreeTest {
 
 		SuffixTree expected = new SuffixTree();
 		expected.string = "aba" + SuffixTree.STRING_END;
+		expected.root.addEdgeAndNewNode(3, 3); // $
 		expected.root.addEdgeAndNewNode(0, 1); // a
 		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(3,3); //$
 		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,3); //ba$

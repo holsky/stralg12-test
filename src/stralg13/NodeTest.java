@@ -57,7 +57,7 @@ public class NodeTest {
 	public void splitEdge() {
 		Node actual = new Node();
 		actual.addEdgeAndNewNode(0, 4);
-		actual.splitEdge(new Tuple(0,4), 2);
+		Node newNode = actual.splitEdgeAndReturnNewNode(new Tuple(0,4), 2);
 		
 		Node expected = new Node();
 		Node child = new Node(expected);
@@ -65,5 +65,28 @@ public class NodeTest {
 		child.edges.put(new Tuple(2,4), new Node(child));
 		
 		assertTrue(expected.equals(actual));
+		assertTrue(newNode.parent.equals(actual));
+	}
+	
+	@Test
+	
+	public void splitBiggerEdge()  {		
+		SuffixTree actual = new SuffixTree();
+	
+		actual.string = "aba" + SuffixTree.STRING_END;
+		actual.root.addEdgeAndNewNode(0, 3); // aba$
+		actual.root.addEdgeAndNewNode(1, 3); // ba$
+		Node newNode = actual.root.splitEdgeAndReturnNewNode(new Tuple(0,3), 1);
+		
+		SuffixTree expected = new SuffixTree();
+		expected.string = "aba" + SuffixTree.STRING_END;
+		expected.root.addEdgeAndNewNode(0, 1); // a
+		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,3); //ba$
+		expected.root.addEdgeAndNewNode(1, 3); // ba$
+		
+		assertTrue(expected.equals(actual));
+		assertTrue(newNode.parent.equals(actual.root));
+
+		
 	}
 }
