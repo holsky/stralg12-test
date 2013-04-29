@@ -74,19 +74,28 @@ public class NodeTest {
 		SuffixTree actual = new SuffixTree();
 	
 		actual.string = "aba" + SuffixTree.STRING_END;
-		actual.root.addEdgeAndNewNode(0, 3); // aba$
-		actual.root.addEdgeAndNewNode(1, 3); // ba$
-		Node newNode = actual.root.splitEdgeAndReturnNewNode(new Tuple(0,3), 1);
+		actual.root.addEdgeAndNewNode(0, 4); // aba$
+		actual.root.addEdgeAndNewNode(1, 4); // ba$
+		Node newNode = actual.root.splitEdgeAndReturnNewNode(new Tuple(0,4), 1);
 		
 		SuffixTree expected = new SuffixTree();
 		expected.string = "aba" + SuffixTree.STRING_END;
 		expected.root.addEdgeAndNewNode(0, 1); // a
-		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,3); //ba$
-		expected.root.addEdgeAndNewNode(1, 3); // ba$
+		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,4); //ba$
+		expected.root.addEdgeAndNewNode(1, 4); // ba$
 		
 		assertTrue(expected.equals(actual));
 		assertTrue(newNode.parent.equals(actual.root));
-
-		
+	}
+	
+	@Test
+	public void testToString() {
+		SuffixTree expected = new SuffixTree();
+		expected.string = "aba" + SuffixTree.STRING_END;
+		expected.root.addEdgeAndNewNode(0, 1); // a
+		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,4); //ba$
+		expected.root.addEdgeAndNewNode(1, 4); // ba$
+	
+		System.out.println(expected.root);
 	}
 }

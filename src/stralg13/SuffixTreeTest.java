@@ -111,4 +111,17 @@ public class SuffixTreeTest {
 		
 		assertTrue(actual.equals(expected));
 	}
+	
+	@Test
+	public void testToString(){
+		SuffixTree expected = new SuffixTree();
+		expected.string = "aba" + SuffixTree.STRING_END;
+		expected.root.addEdgeAndNewNode(3, 4); // $
+		Node nodeA = expected.root.addEdgeAndNewNode(0, 1); // a
+		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(3,4); //$
+		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,4); //ba$
+		expected.root.addEdgeAndNewNode(1, 4); // ba$
+		
+		System.out.println(expected);
+	}
 }
