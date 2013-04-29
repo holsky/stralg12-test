@@ -11,8 +11,9 @@ public class SuffixTreeTest {
 		SuffixTree actual = new SuffixTree("a");
 		SuffixTree expected = new SuffixTree();
 		expected.string = "a" + SuffixTree.STRING_END;
-		expected.root.addEdgeAndNewNode(0, 1);
-		expected.root.addEdgeAndNewNode(1, 1);
+		expected.root.addEdgeAndNewNode(0, 2);
+		expected.root.addEdgeAndNewNode(1, 2);
+		expected.root.suffixLink = expected.root;
 
 		assertTrue(actual.equals(expected));
 	}
@@ -23,9 +24,10 @@ public class SuffixTreeTest {
 
 		SuffixTree expected = new SuffixTree();
 		expected.string = "ab" + SuffixTree.STRING_END;
-		expected.root.addEdgeAndNewNode(0, 2);
-		expected.root.addEdgeAndNewNode(1, 2);
-		expected.root.addEdgeAndNewNode(2, 2);
+		expected.root.addEdgeAndNewNode(0, 3);
+		expected.root.addEdgeAndNewNode(1, 3);
+		expected.root.addEdgeAndNewNode(2, 3);
+		expected.root.suffixLink = expected.root;
 
 		assertTrue(actual.equals(expected));
 	}
@@ -36,7 +38,7 @@ public class SuffixTreeTest {
 		tree.string = "ab" + SuffixTree.STRING_END;
 		tree.root.addEdgeAndNewNode(0, 2);
 		
-		SlowScanResult actual = tree.slowscan(tree.root, 1);
+		SlowScanResult actual = tree.slowscan(tree.root, 1, tree.string.length());
 		assertNull(actual.edge);
 		assertTrue(actual.node.equals(tree.root));
 		
@@ -49,7 +51,7 @@ public class SuffixTreeTest {
 		tree.root.addEdgeAndNewNode(0, 3); // aba$
 		tree.root.addEdgeAndNewNode(1, 3); // ba$
 		
-		SlowScanResult actual = tree.slowscan(tree.root, 2);
+		SlowScanResult actual = tree.slowscan(tree.root, 2, tree.string.length());
 
 		SlowScanResult expected 
 			= SlowScanResult.makeEdgeResult(tree.root, new Tuple(0,3), 1);
@@ -58,16 +60,19 @@ public class SuffixTreeTest {
 	}
 	
 	@Test
-	public void testSplitEdge() {
+	public void testAAB() {
 		SuffixTree actual = new SuffixTree("aba");
 
 		SuffixTree expected = new SuffixTree();
 		expected.string = "aba" + SuffixTree.STRING_END;
-		expected.root.addEdgeAndNewNode(3, 3); // $
-		expected.root.addEdgeAndNewNode(0, 1); // a
-		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(3,3); //$
-		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,3); //ba$
-		expected.root.addEdgeAndNewNode(1, 3); // ba$
+		expected.root.addEdgeAndNewNode(3, 4); // $
+		Node nodeA = expected.root.addEdgeAndNewNode(0, 1); // a
+		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(3,4); //$
+		expected.root.edges.get(new Tuple(0,1)).addEdgeAndNewNode(1,4); //ba$
+		expected.root.addEdgeAndNewNode(1, 4); // ba$
+		
+		expected.root.suffixLink = expected.root;
+		nodeA.suffixLink = expected.root;
 
 		assertTrue(actual.equals(expected));
 	}
@@ -80,4 +85,30 @@ public class SuffixTreeTest {
 		assertTrue(tree.edgeStartsWithString(1, new Tuple(1, 5)));
 	}
 
+	@Test
+	public void testABAABTreeConstruction() {
+		// a b a a b
+		// 0 1 2 3 4
+		SuffixTree actual = new SuffixTree("abaab");
+		
+		SuffixTree expected = new SuffixTree();
+		expected.string = "abaab";
+		Node nodeA = expected.root.addEdgeAndNewNode(0, 1); // a
+		Node nodeB = expected.root.addEdgeAndNewNode(1, 2); // b
+		expected.root.addEdgeAndNewNode(5, 6); // $
+		Node nodeAB = nodeA.addEdgeAndNewNode(1, 2); // a b
+		nodeA.addEdgeAndNewNode(3, 6); // a ab$
+		nodeA.addEdgeAndNewNode(1, 2); // a b$
+		nodeAB.addEdgeAndNewNode(2, 6); // a b aab$
+		nodeAB.addEdgeAndNewNode(5, 6); // a b $
+		nodeB.addEdgeAndNewNode(2, 6); // b aab$
+		nodeB.addEdgeAndNewNode(5, 6); // b $
+		
+		expected.root.suffixLink = expected.root;
+		nodeA.suffixLink = expected.root;
+		nodeAB.suffixLink = nodeB;
+		nodeB.suffixLink = expected.root;
+		
+		assertTrue(actual.equals(expected));
+	}
 }
