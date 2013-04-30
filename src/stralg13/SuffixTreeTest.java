@@ -120,9 +120,11 @@ public class SuffixTreeTest {
 		SuffixTree expected = new SuffixTree();
 		expected.string ="abaababa$";
 		
+		expected.root.addEdgeAndNewNode(8,9);
+		
 		Node nodeA = expected.root.addEdgeAndNewNode(0,  1);	
 		nodeA.addEdgeAndNewNode(8, 9);
-		nodeA.addEdgeAndNewNode(2, 9);
+		nodeA.addEdgeAndNewNode(3, 9);
 	
 		Node nodeABA = nodeA.addEdgeAndNewNode(1, 3);
 		
@@ -136,9 +138,7 @@ public class SuffixTreeTest {
 		nodeBA.addEdgeAndNewNode(6, 9);
 		
 		assertTrue(expected.equals(actual));
-		
-		
-		}
+	}
 	
 	@Test
 	public void testToString(){
