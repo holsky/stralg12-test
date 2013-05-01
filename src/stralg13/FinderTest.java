@@ -23,7 +23,26 @@ public class FinderTest {
 	}
 	
 	@Test
-	public void testSearchLongerInput() {
+	public void testSearchInABAABABA() {
+		Finder finder = new Finder("abaababa", "a");
+		List<Integer> results = finder.search();
+		assertTrue(results.size() == 5);
+		
+		finder = new Finder("abaababa", "b");
+		results = finder.search();
+		assertTrue(results.size() == 3);
+		
+		finder = new Finder("abaababa", "ba");
+		results = finder.search();
+		assertTrue(results.size() == 3);
+		
+		finder = new Finder("abaababa", "bab");
+		results = finder.search();
+		assertTrue(results.size() == 1);
+	}
+	
+	@Test
+	public void testSearchLongerInput() { // Doesn't work due to wrong suffix tree
 		Finder finder = new Finder("ababbbab", "a");
 		List<Integer> results = finder.search();
 		assertTrue(results.size() == 3);
