@@ -152,4 +152,10 @@ public class SuffixTreeTest {
 		
 		System.out.println(expected);
 	}
+	
+	@Test
+	public void testMississippi() {
+		SuffixTree actual = new SuffixTree("mississippi");
+		String a = "";
+	}
 }
