@@ -148,10 +148,38 @@ public class SuffixTreeTest {
 	}
 	
 	@Test
+	public void testABBBA () {
+		SuffixTree actual = new SuffixTree("abbba");
+		
+		SuffixTreeNaive expected = new SuffixTreeNaive("abbba");
+		assertTrue(expected.equals(actual));
+	}
+	
+	@Test
 	public void testABBBBABA () {
 		SuffixTree actual = new SuffixTree("abbbbaba");
 		
 		SuffixTreeNaive expected = new SuffixTreeNaive("abbbbaba");
+		assertTrue(expected.equals(actual));
+	}
+	
+	
+	
+	@Test
+	public void testABABBBA () {
+		String string = "ababbba";
+		SuffixTree actual = new SuffixTree(string);
+		
+		SuffixTreeNaive expected = new SuffixTreeNaive(string);
+		assertTrue(expected.equals(actual));
+	}
+	
+	@Test
+	public void testMississippi () {
+		String string = "mississippi";
+		SuffixTree actual = new SuffixTree(string);
+		
+		SuffixTreeNaive expected = new SuffixTreeNaive(string);
 		assertTrue(expected.equals(actual));
 	}
 	
@@ -168,4 +196,23 @@ public class SuffixTreeTest {
 		System.out.println(expected);
 	}
 	
+	@Test
+	public void testDepth() {
+		SuffixTree tree = new SuffixTree();
+		tree.string = "aba" + SuffixTree.STRING_END;
+		Node node = tree.root.addEdgeAndNewNode(3, 4).addEdgeAndNewNode(4, 6).addEdgeAndNewNode(6, 7); // $
+		
+		
+		int actual = tree.getDepth(node);
+		assertEquals (actual, 4);
+	}
+	
+	@Test
+	public void thethe() {
+		String walrus = "ThTheTher";
+		SuffixTree actual = new SuffixTree(walrus);
+		SuffixTreeNaive expected = new SuffixTreeNaive(walrus);
+		assertTrue(expected.equals(actual));
+		
+	}
 }
