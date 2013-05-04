@@ -16,16 +16,21 @@ public class SuffixTreeNaiveTest {
 		expected.string = "abaab$";
 		Node nodeA = expected.root.addEdgeAndNewNode(0, 1); // a
 		Node nodeB = expected.root.addEdgeAndNewNode(1, 2); // b
-		expected.root.addEdgeAndNewNode(5, 6); // $
+		Node leaf = expected.root.addEdgeAndNewNode(5, 6); // $
+		leaf.leafIndex = 5;
 		
 		Node nodeAB = nodeA.addEdgeAndNewNode(1, 2); // a b
-		nodeA.addEdgeAndNewNode(3, 6); // a ab$
+		leaf = nodeA.addEdgeAndNewNode(3, 6); // a ab$
+		leaf.leafIndex = 2;
 		
-		nodeAB.addEdgeAndNewNode(2, 6); // a b aab$
-		nodeAB.addEdgeAndNewNode(5, 6); // a b $
-		nodeB.addEdgeAndNewNode(2, 6); // b aab$
-		nodeB.addEdgeAndNewNode(5, 6); // b $
-		
+		leaf = nodeAB.addEdgeAndNewNode(2, 6); // a b aab$
+		leaf.leafIndex = 0;
+		leaf = nodeAB.addEdgeAndNewNode(5, 6); // a b $
+		leaf.leafIndex = 3;
+		leaf = nodeB.addEdgeAndNewNode(2, 6); // b aab$
+		leaf.leafIndex = 1;
+		leaf = nodeB.addEdgeAndNewNode(5, 6); // b $
+		leaf.leafIndex = 4;
 		expected.root.suffixLink = expected.root;
 		nodeA.suffixLink = expected.root;
 		nodeAB.suffixLink = nodeB;

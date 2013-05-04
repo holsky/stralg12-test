@@ -63,11 +63,9 @@ public class FinderTest {
 
 	@Test
 	public void walruss() {
-		
-		
-		/*Finder finder = new Finder(readFile("walrus.txt"), "Walrus");
+		Finder finder = new Finder(readFile("walrus.txt"), "Walrus");
 		List<Integer> results = finder.search();
-		assertTrue(results.size() == 10);*/
+		assertTrue(results.size() == 10);
 	}
 
 	protected static String readFile(String filename) {
