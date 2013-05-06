@@ -5,7 +5,8 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 @RunWith(Suite.class)
-@SuiteClasses({ NodeTest.class, SuffixTreeTest.class, FinderTest.class, SuffixTreeNaiveTest.class })
+@SuiteClasses({ NodeTest.class, SuffixTreeTest.class, FinderTest.class, SuffixTreeNaiveTest.class,
+	TandemRepeatsFinderTest.class})
 public class AllTests {
 
 }
