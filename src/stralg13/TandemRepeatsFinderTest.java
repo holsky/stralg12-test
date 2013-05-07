@@ -3,6 +3,8 @@ package stralg13;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import java.io.ByteArrayOutputStream;
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.TreeSet;
 
@@ -80,8 +82,12 @@ public class TandemRepeatsFinderTest {
 	}
 	
 	protected boolean runOnFileCompareWithOutput(String filename) throws Exception {
-		String actual = TandemRepeatFinder.findTandemRepeats("testdata/" + filename + ".txt");
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		PrintStream out = new PrintStream(baos);
+		TandemRepeatFinder.findTandemRepeats("testdata/" + filename + ".txt", out);
+		String actual = baos.toString("UTF8");
 		String expected = TandemRepeatFinder.readFile("testdata/" + filename + ".out");
+
 		return expected.equals(actual);
 	}
 	
